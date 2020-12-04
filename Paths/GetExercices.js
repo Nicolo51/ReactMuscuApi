@@ -7,7 +7,7 @@ exports.GetExercices = function(token, ID_Session, callback){
                 if(isOwned){
                     ORM.OrmParser.ExecuteSelectQuery("SELECT `ID`, `ID_Session`, `Name`, `muscle`, `Rest`, `Nbr_Rep`, `Weight` FROM Exercices Where ID_Session = "+ ID_Session +" AND IsDeleted=0;", function(results){
                 
-                        return callback('{"Status":"Success", "Exercices":' + JSON.stringify(results)); 
+                        return callback('{"Status":"Success", "Exercices":' + JSON.stringify(results) + '}'); 
                     }); 
                 }
                 else{

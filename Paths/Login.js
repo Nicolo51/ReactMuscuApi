@@ -10,7 +10,9 @@ exports.Login = function(username, password, callback) {
             console.log("Username query return more than one result.");
             return callback('{"Usertoken": "null", "Status":"Fail", Message:"More than one reuslt with this username/email."}');
         }
-        
+        if(result.length < 1){
+		return callback('{"Usertoken": "null", "Status": "Fail", Message: "Credential dosn\'t match"}');
+	}
         const userData = result[0]; 
         if(userData.password != password)
             return callback('{"Usertoken": "null", "Status":"Fail", Message:"Credential dosn\'t match"}'); 
