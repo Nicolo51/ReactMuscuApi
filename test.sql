@@ -1,0 +1,4 @@
+CREATE TABLE(
+`ID` INT, 
+`Name` VARCHAR(50)
+); 

@@ -42,7 +42,8 @@ SqlConnection.sqlCon.connect(function(err)
     if(err) throw err; 
         SqlConnection.sqlCon.query("SELECT * FROM `TokensApp` WHERE IsActive = 1", function (err, result, fields) {
             if (err) throw err;
-            tokenApp = result[0].TokenApp; 
+            tokenApp = result[0].TokenApp;
+console.log(tokenApp); 
         });
     })
 }); 

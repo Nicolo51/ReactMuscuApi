@@ -8,12 +8,11 @@ exports.CreateUser =function(body, callback){
     const username = body.username;
     const password = body.password;
 
-        if(firstname === undefined || lastname === undefined || birthday === un$
+    if(firstname === undefined || lastname === undefined || birthday === undefined || email === undefined || username === undefined || password === undefined){
                 return callback('{"Status":"Check arguments"}');
         }
 
-        ORM.OrmParser.ExecuteInsertQuery("INSERT INTO `Users`(`firstname`, `las$
+        ORM.OrmParser.ExecuteInsertQuery("INSERT INTO `Users`(`firstname`, `lastname`, `birthday`, `email`, `username`, `password`) VALUES ('" + firstname + "', '" + lastname + "', '" + birthday + "', '" + email + "', '" + username + "', '" + password +"');", function(ID){
                 return callback('{"Status":"Success", "ID": '+ ID +'}');
         });
 }
-const ORM = require("../Modules/ORM.js");

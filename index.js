@@ -4,7 +4,7 @@ const getExercices = require("./Paths/GetExercices.js");
 
 const createSession = require ('./Paths/CreateSession.js');
 const createExercice = require ("./Paths/CreateExercice.js");  
-
+const createUser = require ("./Paths/CreateUser.js"); 
 var methods = {
     onGetRequest : function(path, args, req, res){ 
         console.log("A Get request have been received !"); 
@@ -53,20 +53,33 @@ var methods = {
         });
 
         req.on('end', function () {
-            var JsonBody = JSON.parse(body);
+            var JsonBody = {}; 
+            try{
+                JsonBody = JSON.parse(body);
+            }
+            catch(e){
+                console.log(e);
+                res.end('{"ServerResponse": 200,"Data": {"Status": "Fail","Message": "' + e.toString() + '"}}');
+                return; 
+            }
             switch(path.toLowerCase()){
                 case "/favicon.ico":
                     res.end();
                     break; 
+		case "/createuser" : 
+		    createUser.CreateUser(JsonBody, function(result){
+			res.end('{"ServerResponse" : 200,"Data": ' + result + '}');
+		    }); 
+		    break; 
                 case "/createsession" : 
                     createSession.CreateSession(JsonBody, function(result){
                         res.end('{"ServerResponse": 200,"Data": ' + result + '}');
-                    })
+                    }); 
                     break;
                 case "/createexercice" : 
                     createExercice.CreateExercice(JsonBody, function(result){
                         res.end('{"ServerResponse": 200,"Data": ' + result + '}');
-                    })
+                    }); 
                     break; 
                 default :
                     console.log("Unknown Path")
