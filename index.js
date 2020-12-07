@@ -19,10 +19,11 @@ var methods = {
                     if(result == {}){
                         res.end('{"ServerResponse": 200,"Data": "No password or username given "}');
                     }else{
+
                     res.end('{"ServerResponse": 200,"Data": ' + result + '}');
                 }}); 
                 break;
-            case "/getsessions" : 
+            case "/getsessions" :
                 getSessions.GetSessions(args.token, function(results){
                     res.end('{"ServerResponse": 200,"Data": ' + results + '}'); 
                 })

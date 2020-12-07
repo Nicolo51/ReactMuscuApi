@@ -3,6 +3,7 @@ const url = require('url');
 const index = require('./index.js');
 const SqlConnection = require("./Modules/SqlConnection.js");
 var tokenApp = "";
+var isActive = false;
 
 const requestListener = function (req, res) {
     if(req.method == 'post'){
@@ -37,13 +38,15 @@ const requestListener = function (req, res) {
 const server = http.createServer(requestListener);
 server.listen(8080, function() {
 console.log("Listening on port 8080");
-SqlConnection.sqlCon.connect(function(err)
+SqlConnection.sqlCon.getConnection(function(err, connection) 
 {
     if(err) throw err; 
-        SqlConnection.sqlCon.query("SELECT * FROM `TokensApp` WHERE IsActive = 1", function (err, result, fields) {
+        connection.query("SELECT * FROM `TokensApp` WHERE IsActive = 1", function (err, result, fields) {
+            connection.release(); 
             if (err) throw err;
             tokenApp = result[0].TokenApp;
-console.log(tokenApp); 
+            console.log(tokenApp); 
         });
     })
 }); 
+

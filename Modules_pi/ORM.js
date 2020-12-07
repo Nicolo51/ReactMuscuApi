@@ -2,14 +2,15 @@ const SqlConnection = require("./SqlConnection.js");
 
 exports.OrmParser = {
     ExecuteSelectQuery: function (sql, callback){
-      
-        SqlConnection.sqlCon.query(sql, function(err, results){
+      SqlConnection.sqlCon.getConnection(function(err, connection){
+        connection.query(sql, function(err, results){
+          connection.release();
               if (err){ 
                 throw err;
               }
               return callback(results);
       })
-  },
+  })}, 
 
   ExecuteInsertQuery: function(sql, callback){
     var finalQuery = sql.trim();
@@ -25,11 +26,13 @@ exports.OrmParser = {
   }, 
 
   ExecuteNonQuery: function(sql){
-    SqlConnection.sqlCon.query(sql, function(err){
+    SqlConnection.sqlCon.getConnection(function(err, connection){
+      connection.query(sql, function(err, results){
+        connection.release();
       if(err) throw err; 
         console.log(sql + "have been well executed !"); 
     })
-  },
+  })},
 
   CheckTokenUser: function(token, callback){
     this.ExecuteSelectQuery("SELECT ID_User, IsActive FROM TokenUser WHERE Token ='" + token +"';", function(results) {
