@@ -1,3 +1,4 @@
+const Log = require("./Log.js");
 const SqlConnection = require("./SqlConnection.js");
 
 exports.OrmParser = {
@@ -30,18 +31,18 @@ exports.OrmParser = {
       connection.query(sql, function(err, results){
         connection.release();
       if(err) throw err; 
-        console.log(sql + "have been well executed !"); 
+        Log.log(sql + "have been well executed !"); 
     })
   })},
 
   CheckTokenUser: function(token, callback){
     this.ExecuteSelectQuery("SELECT ID_User, IsActive FROM TokenUser WHERE Token ='" + token +"';", function(results) {
-      console.log(results);
+      Log.log(results);
       if(results.length > 0){
         var result = results[0]; 
         if(result.IsActive == 1){
-          console.log(result.ID_User);
-          console.log(result);
+          Log.log(result.ID_User);
+          Log.log(result);
           return callback(result.ID_User); 
         }
         return callback(-1); 

@@ -1,3 +1,4 @@
+const Log = require("../Modules/Log.js");
 const ORM = require("../Modules/ORM.js");
 
 exports.CreateExercice = function(body, callback){
@@ -8,12 +9,12 @@ exports.CreateExercice = function(body, callback){
     const rest = body.rest;
     const nbrRep = body.nbrRep;
     const weight = body.weight;
-    console.log(name + " " + token);
+    Log.log(name + " " + token);
     if(name === undefined || token == undefined ){
         return callback('{"Status":"Check arguments"}');
     }
     ORM.OrmParser.CheckTokenUser(token, function(IdUser){
-        console.log(IdUser);
+        Log.log(IdUser);
         if(IdUser > -1){
             ORM.OrmParser.CheckSessionOwner(IdUser, ID_Session, function(isOwned){
                 if(isOwned){

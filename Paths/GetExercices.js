@@ -1,3 +1,4 @@
+const Log = require("../Modules/Log.js");
 const ORM = require("../Modules/ORM.js"); 
 
 exports.GetExercices = function(token, ID_Session, callback){

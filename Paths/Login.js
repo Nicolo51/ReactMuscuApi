@@ -1,3 +1,4 @@
+const Log = require("../Modules/Log.js");
 const ORM = require("../Modules/ORM.js");
 
 exports.Login = function(username, password, callback) {
@@ -5,9 +6,9 @@ exports.Login = function(username, password, callback) {
         return callback('{"Usertoken": "null", "Status":"Fail", Message:"Credential dosn\'t match"}');
     }
     ORM.OrmParser.ExecuteSelectQuery("SELECT * FROM `Users` Where username ='" + username + "' OR email = '" + username + "';", function (result) {
-        console.log("result =" +  result); 
+        Log.log("result =" +  result); 
         if(result.length > 1){
-            console.log("Username query return more than one result.");
+            Log.log("Username query return more than one result.");
             return callback('{"Usertoken": "null", "Status":"Fail", Message:"More than one reuslt with this username/email."}');
         }
         if(result.length < 1){

@@ -5,11 +5,14 @@ const getExercices = require("./Paths/GetExercices.js");
 const createSession = require ('./Paths/CreateSession.js');
 const createExercice = require ("./Paths/CreateExercice.js");  
 const createUser = require ("./Paths/CreateUser.js"); 
+
+const Log = require("./Modules/Log.js");
+
 var methods = {
     onGetRequest : function(path, args, req, res){ 
-        console.log("A Get request have been received !"); 
-        console.log(path); 
-        console.log(args); 
+        Log.log("A Get request have been received !"); 
+        Log.log(path); 
+        Log.log(args); 
         switch(path.toLowerCase()){
             case "/favicon.ico":
                 res.end();
@@ -34,16 +37,16 @@ var methods = {
                 })
                 break; 
             default :
-                console.log("Unknown Path")
+                Log.log("Unknown Path")
                 res.end('{"ServerResponse": 404,"Data": "Unknow Path Get"}');
                 break; 
         };
         
     },
     onPostRequest : function(path, args, req, res){
-        console.log("A Post request have been received !");
-        console.log(path); 
-        console.log(args);
+        Log.log("A Post request have been received !");
+        Log.log(path); 
+        Log.log(args);
 
         var body = '';
 
@@ -59,7 +62,7 @@ var methods = {
                 JsonBody = JSON.parse(body);
             }
             catch(e){
-                console.log(e);
+                Log.log(e);
                 res.end('{"ServerResponse": 200,"Data": {"Status": "Fail","Message": "' + e.toString() + '"}}');
                 return; 
             }
@@ -83,7 +86,7 @@ var methods = {
                     }); 
                     break; 
                 default :
-                    console.log("Unknown Path")
+                    Log.log("Unknown Path")
                     res.end('{"ServerResponse": 404,"Data": "Unknow Path Get"}');
             };
         });

@@ -2,6 +2,7 @@ const http = require('http');
 const url = require('url');
 const index = require('./index.js');
 const SqlConnection = require("./Modules/SqlConnection.js");
+const Log = require("./Modules/Log.js");
 var tokenApp = "";
 var isActive = false;
 
@@ -16,7 +17,7 @@ const requestListener = function (req, res) {
         let query = url.parse(req.url, true).query; 
         let path = req.url.split('?')[0];
         if(query.TokenApp !== tokenApp){
-            console.log("Request received but wrong token.")
+            Log.log("Request received but wrong token.")
             res.end('{"ServerResponse": "200","Data": "Token missing"}'); 
             return; 
         }
@@ -37,7 +38,7 @@ const requestListener = function (req, res) {
 
 const server = http.createServer(requestListener);
 server.listen(8080, function() {
-console.log("Listening on port 8080");
+Log.log("Listening on port 8080");
 SqlConnection.sqlCon.getConnection(function(err, connection) 
 {
     if(err) throw err; 
@@ -45,7 +46,7 @@ SqlConnection.sqlCon.getConnection(function(err, connection)
             connection.release(); 
             if (err) throw err;
             tokenApp = result[0].TokenApp;
-            console.log(tokenApp); 
+            Log.log(tokenApp); 
         });
     })
 }); 
