@@ -1,6 +1,6 @@
 const mysql = require('mariadb/callback');   
 
-exports.sqlCon = mysql.createConnection({
+exports.sqlCon = mysql.createPool({
     host: "localhost",
     user: "admin@ReactMuscu", 
     database: "ReactMuscu", 
