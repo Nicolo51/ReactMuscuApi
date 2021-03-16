@@ -6,6 +6,9 @@ const createSession = require ('./Paths/CreateSession.js');
 const createExercice = require ("./Paths/CreateExercice.js");  
 const createUser = require ("./Paths/CreateUser.js"); 
 
+const removeSession = require ("./Paths/RemoveSession.js"); 
+const removeExercice = require ("./Paths/RemoveExercice.js"); 
+
 const Log = require("./Modules/Log.js");
 
 var methods = {
@@ -85,6 +88,16 @@ var methods = {
                         res.end('{"ServerResponse": 200,"Data": ' + result + '}');
                     }); 
                     break; 
+                case "removeSession" : 
+                    removeSession.RemoveSession(JsonBody, function(result){
+                        res.end('{"ServerResponse": 200,"Data": ' + result + '}');
+                    });
+                    break;
+                case "removeexercice" : 
+                    removeExercice.RemoveExercice(JsonBody, function(result){
+                        res.end('{"ServerResponse": 200,"Data": ' + result + '}');
+                    });
+                    break;
                 default :
                     Log.log("Unknown Path")
                     res.end('{"ServerResponse": 404,"Data": "Unknow Path Get"}');
