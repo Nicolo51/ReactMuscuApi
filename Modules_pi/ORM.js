@@ -65,6 +65,12 @@ exports.OrmParser = {
         return callback(false); 
       }
     });
+  },
+  CheckExerciceOwner: function(IdUser, ID_Exercice, callback){
+    this.ExecuteSelectQuery("SELECT * FROM Exercices WHERE ID = " + ID_Exercice + " AND IsDeleted=0;", function(result){
+      this.CheckSessionOwner(IdUser, result.ID_Session, function(isOwned){
+        callback(isOwned);
+      })
+    });
   }
 } 
- 
