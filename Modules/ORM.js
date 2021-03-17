@@ -26,14 +26,16 @@ exports.OrmParser = {
     }
   }, 
 
-  ExecuteNonQuery: function(sql){
+  ExecuteNonQuery: function(sql, callback){
     SqlConnection.sqlCon.getConnection(function(err, connection){
       connection.query(sql, function(err, results){
         connection.release();
       if(err) throw err; 
         Log.log(sql + "have been well executed !"); 
+        return callback(true); 
     })
-  })},
+  })
+},
 
   CheckTokenUser: function(token, callback){
     this.ExecuteSelectQuery("SELECT ID_User, IsActive FROM TokenUser WHERE Token ='" + token +"';", function(results) {
@@ -67,11 +69,17 @@ exports.OrmParser = {
     });
   },
   CheckExerciceOwner: function(IdUser, ID_Exercice, callback){
+    const context = this; 
     this.ExecuteSelectQuery("SELECT * FROM Exercices WHERE ID = " + ID_Exercice + " AND IsDeleted=0;", function(result){
-      this.CheckSessionOwner(IdUser, result.ID_Session, function(isOwned){
+      if(result.length > 0){
+      context.CheckSessionOwner(IdUser, result[0].ID_Session, function(isOwned){
         callback(isOwned);
       })
-    });
+    }
+    else{
+      callback(false); 
+    }
+  });
   }
 } 
  

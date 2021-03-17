@@ -14,8 +14,14 @@ exports.RemoveSession = function(body, callback){
         if(IdUser > -1){
             ORM.OrmParser.CheckSessionOwner(IdUser, ID_Session, function(isOwned){
                 if(isOwned){
-                    ORM.OrmParser.ExecuteNonQuery("UPDATE `Sessions` SET IsDeleted = 1 WHERE ID = " + ID_Session + ";", function(){
-                        return callback('{"Status":"Success", "Message" : "Session deleted successfully" }');
+                    ORM.OrmParser.ExecuteNonQuery("UPDATE `Sessions` SET IsDeleted = 1 WHERE ID = " + ID_Session + "; UPDATE `Exercices` SET IsDeleted = 1 WHERE ID_Session = " + ID_Session + ";", function(IsDone){
+                        Log.log(IsDone);
+                        if(IsDone){
+                            return callback('{"Status":"Success", "Message" : "Session deleted successfully" }');
+                        }
+                        else{
+                            return callback('{"Status":"Fail", "Message":"Failed to update database"}'); 
+                        }
                     }); 
                 }
                 else{

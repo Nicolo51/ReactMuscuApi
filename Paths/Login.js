@@ -19,9 +19,11 @@ exports.Login = function(username, password, callback) {
             return callback('{"Usertoken": "null", "Status":"Fail", Message:"Credential dosn\'t match"}'); 
         
         const userToken = Math.random().toString(36).substr(2) + Math.random().toString(36).substr(2);
-        ORM.OrmParser.ExecuteNonQuery("UPDATE `TokenUser` SET `IsActive`=0 WHERE ID_User=" + userData.ID); 
-        ORM.OrmParser.ExecuteNonQuery("INSERT INTO `TokenUser`(`ID_User`, `Token`, `date`, `IsActive`) VALUES (" + userData.ID + ", '" + userToken + "', NOW(), 1); "); 
-        UserResponse = '{"Usertoken": "' + userToken + '", "Status":"Success"}';
-        return callback(UserResponse);
+        ORM.OrmParser.ExecuteNonQuery("UPDATE `TokenUser` SET `IsActive`= 0 WHERE ID_User=" + userData.ID, function(isDone){
+            ORM.OrmParser.ExecuteNonQuery("INSERT INTO `TokenUser`(`ID_User`, `Token`, `date`, `IsActive`) VALUES (" + userData.ID + ", '" + userToken + "', NOW(), 1); ", function(isDone){
+                UserResponse = '{"Usertoken": "' + userToken + '", "Status":"Success"}';
+                return callback(UserResponse);
+            }); 
+        }); 
     }); 
 }

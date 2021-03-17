@@ -69,15 +69,16 @@ var methods = {
                 res.end('{"ServerResponse": 200,"Data": {"Status": "Fail","Message": "' + e.toString() + '"}}');
                 return; 
             }
+            console.log(path.toLowerCase()); 
             switch(path.toLowerCase()){
                 case "/favicon.ico":
                     res.end();
                     break; 
-		case "/createuser" : 
-		    createUser.CreateUser(JsonBody, function(result){
-			res.end('{"ServerResponse" : 200,"Data": ' + result + '}');
-		    }); 
-		    break; 
+                case "/createuser" : 
+                    createUser.CreateUser(JsonBody, function(result){
+                    res.end('{"ServerResponse" : 200,"Data": ' + result + '}');
+                    }); 
+                    break; 
                 case "/createsession" : 
                     createSession.CreateSession(JsonBody, function(result){
                         res.end('{"ServerResponse": 200,"Data": ' + result + '}');
@@ -88,19 +89,19 @@ var methods = {
                         res.end('{"ServerResponse": 200,"Data": ' + result + '}');
                     }); 
                     break; 
-                case "removeSession" : 
+                case "/removesession" : 
                     removeSession.RemoveSession(JsonBody, function(result){
                         res.end('{"ServerResponse": 200,"Data": ' + result + '}');
                     });
                     break;
-                case "removeexercice" : 
+                case "/removeexercice" : 
                     removeExercice.RemoveExercice(JsonBody, function(result){
                         res.end('{"ServerResponse": 200,"Data": ' + result + '}');
                     });
                     break;
                 default :
                     Log.log("Unknown Path")
-                    res.end('{"ServerResponse": 404,"Data": "Unknow Path Get"}');
+                    res.end('{"ServerResponse": 404,"Data": "Unknow Path Post"}');
             };
         });
     },

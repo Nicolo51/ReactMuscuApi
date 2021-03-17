@@ -15,11 +15,11 @@ exports.RemoveExercice = function(body, callback){
             ORM.OrmParser.CheckExerciceOwner(IdUser, ID_Exercice, function(isOwned){
                 if(isOwned){
                     ORM.OrmParser.ExecuteNonQuery("UPDATE `Exercices` SET IsDeleted = 1 WHERE ID = " + ID_Exercice + ";", function(){
-                        return callback('{"Status":"Success", "Message" : "Session deleted successfully"}');
+                        return callback('{"Status":"Success", "Message" : "Exercice deleted successfully"}');
                     }); 
                 }
                 else{
-                    return callback('{"Status":"Fail", "Message":"The session is not owned by the user or doesn\'t exist"}'); 
+                    return callback('{"Status":"Fail", "Message":"The exercice is not owned by the user or doesn\'t exist"}'); 
                 }
             }); 
         }
